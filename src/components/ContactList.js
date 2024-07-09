@@ -8,7 +8,7 @@ const ContactList = () => {
         const fetchContacts = async () => {
             try {
             const apiKey = process.env.REACT_APP_BREVO_API_KEY;
-            const listId = 2;
+            const listId = 5;
             const url = `https://api.brevo.com/v3/contacts/lists/${listId}/contacts`;
 
             const response = await axios.get(url, {
