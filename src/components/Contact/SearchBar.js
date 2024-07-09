@@ -1,30 +1,39 @@
-// src/components/SearchBar.js
 import React from 'react';
+import './SearchBar.css';
 
-const SearchBar = ({ handleSearchChange, Filters }) => {
+const SearchBar = ({ handleFilterChange, filters }) => {
+  if (!filters) {
+    return null;
+  }
+
   return (
-    <div>
-        <imput
+    <div className="search-bar">
+      <input
         type="text"
-        name="Nom"
+        name="nom"
         placeholder="Recherche par nom"
-        value={Filters.nom}
-        onChange={handleFilterchange}
-    />
-    <input
-      type="text"
-      name="Prénom"
-      placeholder="Recherche par prénom"
-      value={Filters.prénom}
-      onChange={handlefiterChange}
-    />
-    <select name="category" value={filters.category} onChange={handleFilterChange}>
-        <option value="">All Categories</option>
-        <option value="Family">Family</option>
-        <option value="Friends">Friends</option>
-        <option value="Work">Work</option>
-        <option value="Other">Other</option>
+        value={filters.nom}
+        onChange={handleFilterChange}
+      />
+      <input
+        type="text"
+        name="prénom"
+        placeholder="Recherche par prénom"
+        value={filters.prénom}
+        onChange={handleFilterChange}
+      />
+      <select
+        name="category"
+        value={filters.category}
+        onChange={handleFilterChange}
+      >
+        <option value="">Toutes les catégories</option>
+        <option value="Family">Famille</option>
+        <option value="Friends">Amis</option>
+        <option value="Work">Travail</option>
+        <option value="Other">Autre</option>
       </select>
+      <button type="button">Rechercher</button>
     </div>
   );
 };

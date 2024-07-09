@@ -25,11 +25,6 @@ nav ul li a {
   transition: background-color 0.3s ease;
 }
 
-<<<<<<< HEAD
-nav ul li a:hover {
-  background-color: #555;
-}
-=======
 /* src/App.css */
 body {
   font-family: Arial, sans-serif;
@@ -61,4 +56,3 @@ li {
 div {
   text-align: center;
 }
->>>>>>> 356fc43148528bd748f211fd3a18e130f6eceb75
