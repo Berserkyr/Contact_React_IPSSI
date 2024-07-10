@@ -1,45 +1,44 @@
 // ContactList.js
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import SearchBar from './Contact/SearchBar';
 import Findcontact from './Contact/FindContact';
+import Contact from './Contact/Contact';
 
+function ContactList() {
+  const [contacts, setContacts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-
-const ContactList = ({ contacts, setContacts }) => {
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const apiKey = process.env.REACT_APP_BREVO_API_KEY;
-        const listId = 5;
-        const url = `https://api.brevo.com/v3/contacts/lists/${listId}/contacts`;
-
-        const response = await axios.get(url, {
-          headers: {
-            'api-key': apiKey
-          }
-        });
-
-        setContacts(response.data.contacts); // Mettez à jour l'état des contacts dans App.js
+        const response = await axios.get('http://localhost:5000/api/contacts'); // Assurez-vous que l'URL correspond à votre backend
+        setContacts(response.data);
+        setLoading(false);
       } catch (error) {
-        console.error('Erreur lors de la récupération des contacts:', error);
+        console.error('Erreur lors de la récupération des contacts :', error);
+        setLoading(false);
       }
     };
 
     fetchContacts();
-  }, [setContacts]);
-     
+  }, []);
+
+  if (loading) {
+    return <div>Chargement...</div>;
+  }
 
   return (
     <>
-    <section>
-      <Findcontact/>
-      <SearchBar/>
-    </section>
-    <div>       
+      <section>
+        <Findcontact />
+        <SearchBar />
+      </section>
+      <div>
         <h1>Liste des Contacts</h1>
         <p>Nombre de contacts: {contacts ? contacts.length : 0}</p>
+        <Contact/>
         <ul>
           {contacts && contacts.map(contact => (
             <li key={contact.id}>
@@ -48,8 +47,9 @@ const ContactList = ({ contacts, setContacts }) => {
             </li>
           ))}
         </ul>
+
       </div></>
   );
-};
+}
 
 export default ContactList;
