@@ -6,57 +6,51 @@
     height: 100vh;
     background-color: #f8f9fa;
   }
-  
-  .card {
-    width: 100%;
-    max-width: 400px;
-    padding: 2rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    background-color: #fff;
-  }
-  
-  .card-title {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: #343a40;
-  }
-  
-  .error {
-    color: #dc3545;
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-  
-  .form-group {
-    margin-bottom: 1.5rem;
-  }
-  
-  .form-control {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-  }
-  
-  .btn-primary {
-    width: 100%;
-    padding: 0.75rem;
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    color: #fff;
-    font-size: 1rem;
-    cursor: pointer;
-  }
-  
-  .btn-primary:hover {
-    background-color: #0056b3;
-  }
-  
-  @media (max-width: 576px) {
-    .card {
-      padding: 1.5rem;
-    }
-  }
+
+.signup-container .card {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.signup-container .card-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #343a40;
+}
+
+.signup-container .error {
+  color: #dc3545;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.signup-container .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.signup-container .form-control {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
+.signup-container .btn-primary {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.signup-container .btn-primary:hover {
+  background-color: #0056b3;
+}
   
