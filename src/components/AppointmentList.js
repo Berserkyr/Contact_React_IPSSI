@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import LocalForageService from '../services/LocalForageService';
 import './AppointmentList.css';
+import { notify } from './Notification';
+import moment from 'moment';
 
 function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointment }) {
   const [editMode, setEditMode] = useState(false);
@@ -15,6 +17,20 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
 
     fetchContacts();
   }, []);
+
+  useEffect(() => {
+    const checkTodayAppointments = () => {
+      const today = moment().startOf('day');
+      appointments.forEach(appointment => {
+        const appointmentDate = moment(appointment.date);
+        if (appointmentDate.isSame(today, 'day')) {
+          notify(`Vous avez un rendez-vous aujourd'hui à ${appointment.time}: ${appointment.description}`);
+        ;
+      }
+    });
+  };
+    checkTodayAppointments();
+  }, [appointments]);
 
   const handleEdit = (appointment) => {
     setEditedAppointment({ appointment });

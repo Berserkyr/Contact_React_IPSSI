@@ -4,14 +4,56 @@ import AppointmentForm from './components/AppointmentForm';
 import AppointmentList from './components/AppointmentList';
 import ContactList from './components/ContactList';
 import LocalForageService from './services/LocalForageService';
-
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+
 
 function App() {
   const [appointments, setAppointments] = useState([]);
   const [contacts, setContacts] = useState([]);
-
+  const notifyAppointment = (appointment) => {
+    toast(`Rappel: ${appointment.title} à ${new Date(appointment.time).toLocaleTimeString()}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: { backgroundColor: 'lightblue', color: 'darkblue' },
+        icon: "📅"
+    });
+  };
+  
+  const scheduleNotifications = () => {
+    const now = new Date().getTime();
+    appointments.forEach(appointment => {
+        const appointmentTime = new Date(appointment.time).getTime();
+        const delay = appointmentTime - now;
+        if (delay > 0) {
+            setTimeout(() => notifyAppointment(appointment), delay);
+        }
+    });
+  };
+  const notify = () => {
+    toast(`Rappel: ${appointments.title} à ${new Date(appointments.time).toLocaleTimeString()}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      style: { backgroundColor: 'lightblue', color: 'darkblue' },
+      icon: "📅"
+  });
+};
+    
+  
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
@@ -67,6 +109,11 @@ function App() {
             <li>
               <Link to="/contacts">Liste des Contacts</Link>
             </li>
+         
+            <li>
+        <button onClick={notify}>Notify!</button>
+        <ToastContainer />
+            </li>
           </ul>
         </nav>
         <Routes>
@@ -89,6 +136,8 @@ function App() {
         </Routes>
       </div>
     </Router>
+    
+    
   );
 }
 

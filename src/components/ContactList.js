@@ -5,12 +5,11 @@ import LocalForageService from '../services/LocalForageService';
 import './ContactList.css'; // Importer le fichier CSS
 import SearchBar from './Contact/SearchBar';
 import Findcontact from './Contact/FindContact';
-import Contact from './Contact/Contact';
+
 
 function ContactList() {
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredContacts, setFilteredContacts] = useState([]);
 
@@ -18,7 +17,10 @@ function ContactList() {
     const fetchContacts = async () => {
       try {
         const apiKey = process.env.REACT_APP_BREVO_API_KEY;
-        const listId = 3;
+        if (!apiKey) {
+          throw new Error('API key is missing');
+        }
+        const listId = 5;
         const url = `https://api.brevo.com/v3/contacts/lists/${listId}/contacts`;
 
         const response = await axios.get(url, {
@@ -35,17 +37,14 @@ function ContactList() {
           await LocalForageService.addContact(contact);
         }
       } catch (error) {
-        console.error('Erreur lors de la récupération des contacts :', error);
+        console.error('Erreur lors de la récupération des contacts :', error); }
+        finally {
         setLoading(false);
       }
     };
 
     fetchContacts();
   }, []);
-
-  if (loading) {
-    return <div>Chargement...</div>;
-  }
 
   useEffect(() => {
     setFilteredContacts(
@@ -55,11 +54,17 @@ function ContactList() {
         (contact.attributes.NOM && contact.attributes.NOM.toLowerCase().includes(searchTerm.toLowerCase()))
       )
     );
-  }, [searchTerm, contacts]);
+}, [searchTerm, contacts]);
 
+
+if (loading) {
+  return <div>Chargement...</div>;
+}
   return (
     <div className="container">
       <h1>Liste des Contacts</h1>
+      <Findcontact/>
+      <SearchBar/>
       <input
         type="text"
         placeholder="Rechercher par nom ou email"
