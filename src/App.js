@@ -14,6 +14,7 @@ function App() {
   const [appointments, setAppointments] = useState([]);
   const [contacts, setContacts] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -30,6 +31,7 @@ function App() {
       if (user) {
         setCurrentUser(user);
       }
+      setIsLoading(false);
     };
 
     fetchAppointments();
@@ -67,14 +69,14 @@ function App() {
     }
   };
 
-  const handleLogin = (user) => {
-    setCurrentUser(user);
-  };
-
   const handleLogout = async () => {
     await LocalForageService.clearCurrentUser();
     setCurrentUser(null);
   };
+
+  if (isLoading) {
+    return <div>Chargement...</div>;
+  }
 
   return (
     <Router>
@@ -90,7 +92,7 @@ function App() {
                   <Link to="/contacts">Liste des Contacts</Link>
                 </li>
                 <li>
-                  <button onClick={handleLogout} className="btn btn-secondary">Déconnexion</button>
+                  <button onClick={handleLogout} className='btn btn-danger'>Se déconnecter</button>
                 </li>
               </>
             ) : (
@@ -109,7 +111,12 @@ function App() {
           <Route
             path="/appointments"
             element={currentUser ? (
-              <AppointmentList appointments={appointments} onUpdateAppointment={handleUpdateAppointment} onDeleteAppointment={handleDeleteAppointment} contacts={contacts} />
+              <AppointmentList
+                appointments={appointments}
+                onUpdateAppointment={handleUpdateAppointment}
+                onDeleteAppointment={handleDeleteAppointment}
+                contacts={contacts}
+              />
             ) : (
               <Navigate to="/login" />
             )}
@@ -132,7 +139,7 @@ function App() {
           />
           <Route
             path="/login"
-            element={<LoginPage onLogin={handleLogin} />}
+            element={<LoginPage onLogin={setCurrentUser} />}
           />
           <Route
             path="/signup"
@@ -140,7 +147,7 @@ function App() {
           />
           <Route
             path="*"
-            element={<Navigate to={currentUser ? "/contacts" : "/login"} />}
+            element={<Navigate to={currentUser ? "/contatcs" : "/login"} />}
           />
         </Routes>
       </div>

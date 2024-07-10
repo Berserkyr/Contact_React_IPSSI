@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import LocalForageService from '../services/LocalForageService';
 import { useNavigate } from 'react-router-dom';
-import './SignupPage.css'; // Importer le fichier CSS
+import './SignupPage.css';
 
 function SignupPage() {
   const [username, setUsername] = useState('');
@@ -29,28 +29,26 @@ function SignupPage() {
         {error && <p className="error">{error}</p>}
         <form onSubmit={handleSignup}>
           <div className="form-group">
-            <label htmlFor="username">Nom d'utilisateur:</label>
+            <label>Nom d'utilisateur:</label>
             <input
               type="text"
-              id="username"
-              className="form-control"
               value={username}
+              className="form-control"
               onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>
           <div className="form-group">
-            <label htmlFor="password">Mot de passe:</label>
+            <label>Mot de passe:</label>
             <input
               type="password"
-              id="password"
-              className="form-control"
               value={password}
+              className="form-control"
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
-          <button type="submit" className="btn-primary">S'inscrire</button>
+          <button type="submit" className="btn btn-primary">S'inscrire</button>
         </form>
       </div>
     </div>

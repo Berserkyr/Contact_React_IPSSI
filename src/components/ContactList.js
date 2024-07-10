@@ -28,7 +28,7 @@ function ContactList() {
         });
 
         const fetchedContacts = response.data.contacts;
-        setContacts(fetchedContacts); // Mettez à jour l'état des contacts dans App.js
+        setContacts(fetchedContacts);
 
         // Ajouter les contacts récupérés dans LocalForage
         for (const contact of fetchedContacts) {
@@ -42,10 +42,6 @@ function ContactList() {
 
     fetchContacts();
   }, []);
-
-  if (loading) {
-    return <div>Chargement...</div>;
-  }
 
   useEffect(() => {
     setFilteredContacts(

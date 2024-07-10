@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import LocalForageService from '../services/LocalForageService';
 import { useNavigate } from 'react-router-dom';
-import './LoginPage.css'; // Importer le fichier CSS
+import './LoginPage.css';
 
 function LoginPage({ onLogin }) {
   const [username, setUsername] = useState('');
@@ -16,7 +16,7 @@ function LoginPage({ onLogin }) {
     if (user) {
       await LocalForageService.setCurrentUser(user);
       onLogin(user);
-      navigate('/appointments');
+      navigate('/contacts');
     } else {
       setError('Nom d\'utilisateur ou mot de passe incorrect.');
     }
@@ -29,10 +29,9 @@ function LoginPage({ onLogin }) {
         {error && <p className="error">{error}</p>}
         <form onSubmit={handleLogin}>
           <div className="form-group">
-            <label htmlFor="username">Nom d'utilisateur:</label>
+            <label >Nom d'utilisateur:</label>
             <input
               type="text"
-              id="username"
               className="form-control"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -40,17 +39,16 @@ function LoginPage({ onLogin }) {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="password">Mot de passe:</label>
+            <label>Mot de passe:</label>
             <input
               type="password"
-              id="password"
-              className="form-control"
               value={password}
+              className="form-control"
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
-          <button type="submit" className="btn-primary">Se connecter</button>
+          <button type="submit" className="btn btn-primary">Se connecter</button>
         </form>
       </div>
     </div>
