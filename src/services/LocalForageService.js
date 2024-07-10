@@ -6,6 +6,7 @@ localforage.config({
 });
 
 const APPOINTMENTS_KEY = 'appointments';
+const CONTACTS_KEY = 'contacts';
 
 const LocalForageService = {
   async getStoredAppointments() {
@@ -59,6 +60,34 @@ const LocalForageService = {
       console.error('Erreur lors de la mise à jour du rendez-vous et de la sauvegarde dans LocalForage:', error);
     }
   },
+
+  async getStoredContacts() {
+    try {
+      let storedContacts = await localforage.getItem(CONTACTS_KEY);
+      return storedContacts || [];
+    } catch (error) {
+      console.error('Erreur lors de la récupération des contacts depuis LocalForage:', error);
+      return [];
+    }
+  },
+
+  async storeContacts(contacts) {
+    try {
+      await localforage.setItem(CONTACTS_KEY, contacts);
+    } catch (error) {
+      console.error('Erreur lors de la sauvegarde des contacts dans LocalForage:', error);
+    }
+  },
+
+  async addContact(newContact) {
+    try {
+      const contacts = await this.getStoredContacts();
+      const updatedContacts = [...contacts, newContact];
+      await this.storeContacts(updatedContacts);
+    } catch (error) {
+      console.error('Erreur lors de l\'ajout du contact et de la sauvegarde dans LocalForage:', error);
+    }
+  }
 };
 
 export default LocalForageService;

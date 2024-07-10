@@ -1,6 +1,5 @@
-// App.js
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import AppointmentForm from './components/AppointmentForm';
 import AppointmentList from './components/AppointmentList';
 import ContactList from './components/ContactList';
@@ -29,7 +28,7 @@ function App() {
   const handleAddAppointment = async (newAppointment) => {
     try {
       await LocalForageService.addAppointment(newAppointment);
-      setAppointments([...appointments, newAppointment]);
+      setAppointments([appointments, newAppointment]);
     } catch (error) {
       console.error('Erreur lors de l\'ajout du rendez-vous et de la sauvegarde dans LocalForage:', error);
     }
@@ -82,6 +81,10 @@ function App() {
           <Route
             path="/contacts"
             element={<ContactList contacts={contacts} setContacts={setContacts} />}
+          />
+          <Route
+            path="*"
+            element={<Navigate to="/contacts" />}
           />
         </Routes>
       </div>
