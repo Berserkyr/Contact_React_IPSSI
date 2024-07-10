@@ -3,8 +3,14 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import LocalForageService from '../services/LocalForageService';
 import './ContactList.css'; // Importer le fichier CSS
+import SearchBar from './Contact/SearchBar';
+import Findcontact from './Contact/FindContact';
+import Contact from './Contact/Contact';
 
-const ContactList = ({ contacts, setContacts }) => {
+function ContactList() {
+  const [contacts, setContacts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredContacts, setFilteredContacts] = useState([]);
 
@@ -29,12 +35,17 @@ const ContactList = ({ contacts, setContacts }) => {
           await LocalForageService.addContact(contact);
         }
       } catch (error) {
-        console.error('Erreur lors de la récupération des contacts:', error);
+        console.error('Erreur lors de la récupération des contacts :', error);
+        setLoading(false);
       }
     };
 
     fetchContacts();
-  }, [setContacts]);
+  }, []);
+
+  if (loading) {
+    return <div>Chargement...</div>;
+  }
 
   useEffect(() => {
     setFilteredContacts(
@@ -69,6 +80,6 @@ const ContactList = ({ contacts, setContacts }) => {
       </ul>
     </div>
   );
-};
+}
 
 export default ContactList;
