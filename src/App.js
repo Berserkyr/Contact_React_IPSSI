@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-ro
 import AppointmentForm from './components/AppointmentForm';
 import AppointmentList from './components/AppointmentList';
 import ContactList from './components/ContactList';
+import ContactForm from './components/ContactForm';
 import LocalForageService from './services/LocalForageService';
 
 import './App.css';
@@ -81,6 +82,10 @@ function App() {
           <Route
             path="/contacts"
             element={<ContactList contacts={contacts} setContacts={setContacts} />}
+          />
+          <Route
+            path="/contact-form/:contactId/:contactAction"
+            element={<ContactForm />}
           />
           <Route
             path="*"
