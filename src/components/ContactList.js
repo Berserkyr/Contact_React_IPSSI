@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import LocalForageService from '../services/LocalForageService';
 import './ContactList.css'; // Importer le fichier CSS
+// import SearchBar from './Contact/SearchBar';
+// import Findcontact from './Contact/FindContact';
+// import Contact from './Contact/Contact';
 
-const ContactList = ({ contacts, setContacts }) => {
+function ContactList () {
+    const [loading, setLoading] = useState(true);
+    const [contacts, setContacts] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredContacts, setFilteredContacts] = useState([]);
-    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchContacts = async () => {
@@ -22,17 +26,18 @@ const ContactList = ({ contacts, setContacts }) => {
                     }
                 });
 
-                const fetchedContacts = response.data.contacts;
-                setContacts(fetchedContacts); // Mettez à jour l'état des contacts dans App.js
+        const fetchedContacts = response.data.contacts;
+        setContacts(fetchedContacts);
 
-                // Ajouter les contacts récupérés dans LocalForage
-                for (const contact of fetchedContacts) {
-                    await LocalForageService.addContact(contact);
-                }
-            } catch (error) {
-                console.error('Erreur lors de la récupération des contacts:', error);
-            }
-        };
+        // Ajouter les contacts récupérés dans LocalForage
+        for (const contact of fetchedContacts) {
+          await LocalForageService.addContact(contact);
+        }
+      } catch (error) {
+        console.error('Erreur lors de la récupération des contacts :', error);
+        setLoading(false);
+      }
+    };
 
         fetchContacts();
     }, [setContacts]);

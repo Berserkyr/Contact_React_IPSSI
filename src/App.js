@@ -4,6 +4,8 @@ import AppointmentForm from './components/AppointmentForm';
 import AppointmentList from './components/AppointmentList';
 import ContactList from './components/ContactList';
 import ContactForm from './components/ContactForm';
+import LoginPage from './components/LoginPage';
+import SignupPage from './components/SignupPage';
 import LocalForageService from './services/LocalForageService';
 
 import './App.css';
@@ -12,6 +14,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   const [appointments, setAppointments] = useState([]);
   const [contacts, setContacts] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -23,13 +27,22 @@ function App() {
       }
     };
 
+    const fetchCurrentUser = async () => {
+      const user = await LocalForageService.getCurrentUser();
+      if (user) {
+        setCurrentUser(user);
+      }
+      setIsLoading(false);
+    };
+
     fetchAppointments();
+    fetchCurrentUser();
   }, []);
 
   const handleAddAppointment = async (newAppointment) => {
     try {
       await LocalForageService.addAppointment(newAppointment);
-      setAppointments([appointments, newAppointment]);
+      setAppointments([...appointments, newAppointment]);
     } catch (error) {
       console.error('Erreur lors de l\'ajout du rendez-vous et de la sauvegarde dans LocalForage:', error);
     }
@@ -57,27 +70,65 @@ function App() {
     }
   };
 
+  const handleLogout = async () => {
+    await LocalForageService.clearCurrentUser();
+    setCurrentUser(null);
+  };
+
+  if (isLoading) {
+    return <div>Chargement...</div>;
+  }
+
   return (
     <Router>
       <div className="App">
         <nav>
-          <ul>
-            <li>
-              <Link to="/appointments">Liste des Rendez-vous</Link>
-            </li>
-            <li>
-              <Link to="/contacts">Liste des Contacts</Link>
-            </li>
+          <ul className='align-items-center'>
+            {currentUser ? (
+              <>
+                <li>
+                  <Link to="/appointments">Liste des Rendez-vous</Link>
+                </li>
+                <li>
+                  <Link to="/contacts">Liste des Contacts</Link>
+                </li>
+                <li>
+                  <button onClick={handleLogout} className='btn btn-danger'>Se déconnecter</button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link to="/login">Connexion</Link>
+                </li>
+                <li>
+                  <Link to="/signup">Inscription</Link>
+                </li>
+              </>
+            )}
           </ul>
         </nav>
         <Routes>
           <Route
             path="/appointments"
-            element={<AppointmentList appointments={appointments} onUpdateAppointment={handleUpdateAppointment} onDeleteAppointment={handleDeleteAppointment} contacts={contacts} />}
+            element={currentUser ? (
+              <AppointmentList
+                appointments={appointments}
+                onUpdateAppointment={handleUpdateAppointment}
+                onDeleteAppointment={handleDeleteAppointment}
+                contacts={contacts}
+              />
+            ) : (
+              <Navigate to="/login" />
+            )}
           />
           <Route
             path="/add-appointment/:contactId"
-            element={<AppointmentForm onAddAppointment={handleAddAppointment} />}
+            element={currentUser ? (
+              <AppointmentForm onAddAppointment={handleAddAppointment} />
+            ) : (
+              <Navigate to="/login" />
+            )}
           />
           <Route
             path="/contacts"
@@ -88,8 +139,16 @@ function App() {
             element={<ContactForm />}
           />
           <Route
+            path="/login"
+            element={<LoginPage onLogin={setCurrentUser} />}
+          />
+          <Route
+            path="/signup"
+            element={<SignupPage />}
+          />
+          <Route
             path="*"
-            element={<Navigate to="/contacts" />}
+            element={<Navigate to={currentUser ? "/contatcs" : "/login"} />}
           />
         </Routes>
       </div>
