@@ -1,0 +1,42 @@
+/* ContactList.css */
+.container {
+  margin-top: 20px;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+.form-control {
+  margin-bottom: 20px;
+  max-width: 400px;
+}
+
+.contact-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.contact-item {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.contact-link {
+  margin-left: 10px;
+  color: #fff;
+}
+
+.contact-link:hover {
+  text-decoration: underline;
+}
+
+.contact-details {
+  flex-grow: 1;
+}

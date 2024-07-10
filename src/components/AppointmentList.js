@@ -1,10 +1,20 @@
-// AppointmentList.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import LocalForageService from '../services/LocalForageService';
 import './AppointmentList.css';
 
-function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointment, contacts }) {
+function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointment }) {
   const [editMode, setEditMode] = useState(false);
   const [editedAppointment, setEditedAppointment] = useState({});
+  const [contacts, setContacts] = useState([]);
+
+  useEffect(() => {
+    const fetchContacts = async () => {
+      const storedContacts = await LocalForageService.getStoredContacts();
+      setContacts(storedContacts);
+    };
+
+    fetchContacts();
+  }, []);
 
   const handleEdit = (appointment) => {
     setEditedAppointment({ appointment });
@@ -22,12 +32,11 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
       return 'Contact inconnu';
     }
     const contact = contacts.find((contact) => Number(contact.id) === Number(contactId));
-    return contact ? contact.email : 'Contact inconnu';
+    return contact ? `${contact.attributes.PRENOM} ${contact.attributes.NOM} - ${contact.email}` : 'Contact inconnu';
   };
 
   return (
     <div className="container mt-5">
-      <h2>Liste des Rendez-vous</h2>
       {editMode ? (
         <form onSubmit={handleUpdate}>
           <div className="form-group">
@@ -36,7 +45,7 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
               type="date"
               className="form-control"
               value={editedAppointment.date}
-              onChange={(e) => setEditedAppointment({ ...editedAppointment, date: e.target.value })}
+              onChange={(e) => setEditedAppointment({ editedAppointment, date: e.target.value })}
               required
             />
           </div>
@@ -46,7 +55,7 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
               type="time"
               className="form-control"
               value={editedAppointment.time}
-              onChange={(e) => setEditedAppointment({ ...editedAppointment, time: e.target.value })}
+              onChange={(e) => setEditedAppointment({ editedAppointment, time: e.target.value })}
               required
             />
           </div>
@@ -56,7 +65,7 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
               type="text"
               className="form-control"
               value={editedAppointment.description}
-              onChange={(e) => setEditedAppointment({ ...editedAppointment, description: e.target.value })}
+              onChange={(e) => setEditedAppointment({ editedAppointment, description: e.target.value })}
               placeholder="Description du rendez-vous"
               required
             />
