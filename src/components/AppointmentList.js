@@ -1,14 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import LocalForageService from '../services/LocalForageService';
 import './AppointmentList.css';
-import { notify } from './Notification';
+import { ToastContainer, toast } from 'react-toastify';
 import moment from 'moment';
 
 function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointment }) {
   const [editMode, setEditMode] = useState(false);
   const [editedAppointment, setEditedAppointment] = useState({});
   const [contacts, setContacts] = useState([]);
-
+  const notify = () => {
+    toast(`Rappel: ${appointments.title} à ${new Date(appointments.time).toLocaleTimeString()}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      style: { backgroundColor: 'lightblue', color: 'darkblue' },
+      icon: "📅"
+  });
+};
+    
   useEffect(() => {
     const fetchContacts = async () => {
       const storedContacts = await LocalForageService.getStoredContacts();

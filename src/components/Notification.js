@@ -33,17 +33,5 @@ const scheduleNotifications = () => {
     });
 };
 
-function App() {
-    useEffect(() => {
-        scheduleNotifications();
-    }, []);
-
-    return (
-        <div>
-            <h1>Notifications de Rendez-vous</h1>
-            <ToastContainer />
-        </div>
-    );
-}
 
 export default Notification;
