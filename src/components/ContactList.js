@@ -75,8 +75,10 @@ if (loading) {
   return (
         <div className="container">
             <h1>Liste des Contacts</h1>
-            <Link to={`/contact-form/null/add`} className="btn btn-primary mb-2">Ajouter un contact</Link>
+            <Link to={`/contact-form/null/add`} className="contact-link btn btn-primary mb-2">Ajouter un contact</Link>
             <Findcontact/>
+            <SearchBar/>
+            <input
             <SearchBar/>
             <input
                 type="text"

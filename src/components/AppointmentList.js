@@ -9,7 +9,6 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
   const [editMode, setEditMode] = useState(false);
   const [editedAppointment, setEditedAppointment] = useState({});
   const [contacts, setContacts] = useState([]);
-  
   const notify = (message) => {
     toast( message, {
       position: "top-right",
@@ -23,7 +22,8 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
       icon: "📅"
   });
 };
-      const navigate = useNavigate();
+    
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchContacts = async () => {
