@@ -9,6 +9,7 @@ const APPOINTMENTS_KEY = 'appointments';
 const CONTACTS_KEY = 'contacts';
 const USERS_KEY = 'users';
 const CURRENT_USER_KEY = 'currentUser';
+const REPORTS_KEY = 'reports';
 
 const LocalForageService = {
   async getStoredAppointments() {
@@ -147,7 +148,57 @@ const LocalForageService = {
       console.error('Erreur lors de la suppression de l\'utilisateur actuel dans LocalForage:', error);
     }
   },
-  
+
+  // Report management
+  async getStoredReports() {
+    try {
+      let storedReports = await localforage.getItem(REPORTS_KEY);
+      return storedReports || [];
+    } catch (error) {
+      console.error('Erreur lors de la récupération des comptes rendus depuis LocalForage:', error);
+      return [];
+    }
+  },
+
+  async storeReports(reports) {
+    try {
+      await localforage.setItem(REPORTS_KEY, reports);
+    } catch (error) {
+      console.error('Erreur lors de la sauvegarde des comptes rendus dans LocalForage:', error);
+    }
+  },
+
+  async addReport(newReport) {
+    try {
+      const reports = await this.getStoredReports();
+      const updatedReports = [...reports, newReport];
+      await this.storeReports(updatedReports);
+    } catch (error) {
+      console.error('Erreur lors de l\'ajout du compte rendu et de la sauvegarde dans LocalForage:', error);
+    }
+  },
+
+  async deleteReport(id) {
+    try {
+      let reports = await this.getStoredReports();
+      reports = reports.filter((report) => report.id !== id);
+      await this.storeReports(reports);
+    } catch (error) {
+      console.error('Erreur lors de la suppression du compte rendu et de la sauvegarde dans LocalForage:', error);
+    }
+  },
+
+  async updateReport(updatedReport) {
+    try {
+      let reports = await this.getStoredReports();
+      reports = reports.map((report) =>
+        report.id === updatedReport.id ? updatedReport : report
+      );
+      await this.storeReports(reports);
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour du compte rendu et de la sauvegarde dans LocalForage:', error);
+    }
+  },
 };
 
 export default LocalForageService;

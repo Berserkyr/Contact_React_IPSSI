@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import LocalForageService from '../services/LocalForageService';
 import './AppointmentList.css';
 import { toast } from 'react-toastify';
@@ -22,7 +23,8 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
       icon: "📅"
   });
 };
-    
+      const navigate = useNavigate();
+
   useEffect(() => {
     const fetchContacts = async () => {
       const storedContacts = await LocalForageService.getStoredContacts();
@@ -47,7 +49,7 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
   }, [appointments]);
 
   const handleEdit = (appointment) => {
-    setEditedAppointment({ appointment });
+    setEditedAppointment(appointment);
     setEditMode(true);
   };
 
@@ -65,6 +67,10 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
     return contact ? `${contact.attributes.PRENOM} ${contact.attributes.NOM} - ${contact.email}` : 'Contact inconnu';
   };
 
+  const handleAddReport = (appointmentId) => {
+    navigate(`/add-report/${appointmentId}`);
+  };
+
   return (
     <div className="container mt-5">
       {editMode ? (
@@ -74,8 +80,8 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
             <input
               type="date"
               className="form-control"
-              value={editedAppointment.date}
-              onChange={(e) => setEditedAppointment({ editedAppointment, date: e.target.value })}
+              value={editedAppointment.date || ''}
+              onChange={(e) => setEditedAppointment({ ...editedAppointment, date: e.target.value })}
               required
             />
           </div>
@@ -84,8 +90,8 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
             <input
               type="time"
               className="form-control"
-              value={editedAppointment.time}
-              onChange={(e) => setEditedAppointment({ editedAppointment, time: e.target.value })}
+              value={editedAppointment.time || ''}
+              onChange={(e) => setEditedAppointment({ ...editedAppointment, time: e.target.value })}
               required
             />
           </div>
@@ -94,8 +100,8 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
             <input
               type="text"
               className="form-control"
-              value={editedAppointment.description}
-              onChange={(e) => setEditedAppointment({ editedAppointment, description: e.target.value })}
+              value={editedAppointment.description || ''}
+              onChange={(e) => setEditedAppointment({ ...editedAppointment, description: e.target.value })}
               placeholder="Description du rendez-vous"
               required
             />
@@ -118,6 +124,7 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
                 <div className="btnUpdate">
                   <button className="btn btn-info" onClick={() => handleEdit(appointment)}>Modifier</button>
                   <button className="btn btn-danger" onClick={() => onDeleteAppointment(appointment.id)}>Supprimer</button>
+                  <button className="btn btn-primary" onClick={() => handleAddReport(appointment.id)}>Ajouter compte rendu</button>
                 </div>
               </div>
             </li>
