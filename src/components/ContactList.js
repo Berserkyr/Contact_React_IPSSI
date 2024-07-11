@@ -3,9 +3,9 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import LocalForageService from '../services/LocalForageService';
 import './ContactList.css'; // Importer le fichier CSS
-// import SearchBar from './Contact/SearchBar';
-// import Findcontact from './Contact/FindContact';
-// import Contact from './Contact/Contact';
+import SearchBar from './Contact/SearchBar';
+import Findcontact from './Contact/FindContact';
+//import Contact from './Contact/Contact';
 
 function ContactList () {
     const [loading, setLoading] = useState(true);
@@ -34,7 +34,8 @@ function ContactList () {
           await LocalForageService.addContact(contact);
         }
       } catch (error) {
-        console.error('Erreur lors de la récupération des contacts :', error);
+        console.error('Erreur lors de la récupération des contacts :', error); }
+        finally {
         setLoading(false);
       }
     };
@@ -66,10 +67,16 @@ function ContactList () {
         );
     }, [searchTerm, contacts]);
 
-    return (
+  
+if (loading) {
+  return <div>Chargement...</div>;
+}
+  return (
         <div className="container">
             <h1>Liste des Contacts</h1>
-            <Link to={`/contact-form/null/add`} className="btn btn-primary mb-2">Ajouter un contact</Link>
+            <Link to={`/contact-form/null/add`} className="contact-link btn btn-primary mb-2">Ajouter un contact</Link>
+            <Findcontact/>
+            <SearchBar/>
             <input
                 type="text"
                 placeholder="Rechercher par nom ou email"

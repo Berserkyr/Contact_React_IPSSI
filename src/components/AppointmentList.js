@@ -2,11 +2,27 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LocalForageService from '../services/LocalForageService';
 import './AppointmentList.css';
+import { toast } from 'react-toastify';
+import moment from 'moment';
 
 function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointment }) {
   const [editMode, setEditMode] = useState(false);
   const [editedAppointment, setEditedAppointment] = useState({});
   const [contacts, setContacts] = useState([]);
+  const notify = (message) => {
+    toast( message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      style: { backgroundColor: 'lightblue', color: 'darkblue' },
+      icon: "📅"
+  });
+};
+    
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,6 +33,20 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
 
     fetchContacts();
   }, []);
+
+  useEffect(() => {
+    const checkTodayAppointments = () => {
+      const today = moment().startOf('day');
+      appointments.forEach(appointment => {
+        const appointmentDate = moment(appointment.date);
+        if (appointmentDate.isSame(today, 'day')) {
+          notify(`Vous avez un rendez-vous aujourd'hui à ${appointment.time}: ${appointment.description}`);
+        ;
+      }
+    });
+  };
+    checkTodayAppointments();
+  }, [appointments]);
 
   const handleEdit = (appointment) => {
     setEditedAppointment(appointment);

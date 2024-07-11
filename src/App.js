@@ -10,14 +10,53 @@ import ReportList from './components/ReportList';
 import ReportForm from './components/ReportForm';
 import Logout from './components/Logout';
 import LocalForageService from './services/LocalForageService';
-
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+
 
 function App() {
   const [appointments, setAppointments] = useState([]);
   const [contacts, setContacts] = useState([]);
-  const [currentUser, setCurrentUser] = useState(null);
+  const notifyAppointment = (appointment) => {
+    const appointmentTime = new Date(appointment.time);
+    if (isNaN(appointmentTime)) {
+      console.error('Invalid appointment date:', appointment);
+      return;
+    }
+    toast(`Rappel: ${appointment.title} à ${appointment.time.toLocaleTimeString()}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: { backgroundColor: 'lightblue', color: 'darkblue' },
+        icon: "📅"
+    });
+  };
+  
+ 
+
+  const notify = (message) => {
+    toast( message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      style: { backgroundColor: 'lightblue', color: 'darkblue' },
+      icon: "📅"
+  });
+};
+    
+    const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -41,11 +80,32 @@ function App() {
     fetchAppointments();
     fetchCurrentUser();
   }, []);
+  
+  useEffect(() => {
+    const now = new Date().getTime();
+
+    const scheduleNotifications = (appointments) => {
+      appointments.forEach(appointment => {
+        const appointmentTime = new Date(appointment.time).getTime();
+        const delay = appointmentTime - now;
+        if (delay > 0) {
+          setTimeout(() => notifyAppointment(appointment), delay);
+        
+        } else {
+          console.error('Invalid appointment time:', appointment);
+        }
+      });
+    };
+    scheduleNotifications(appointments);
+  }, [appointments]);
+
 
   const handleAddAppointment = async (newAppointment) => {
     try {
       await LocalForageService.addAppointment(newAppointment);
-      setAppointments([...appointments, newAppointment]);
+      const updatedAppointments = [...appointments, newAppointment];
+      setAppointments(updatedAppointments);
+      
     } catch (error) {
       console.error('Erreur lors de l\'ajout du rendez-vous et de la sauvegarde dans LocalForage:', error);
     }
@@ -112,6 +172,11 @@ function App() {
                 </li>
               </>
             )}
+         
+            <li>
+        <button onClick={notify}>Notify!</button>
+        <ToastContainer />
+            </li>
           </ul>
         </nav>
         <Routes>
@@ -173,8 +238,11 @@ function App() {
             element={<Navigate to={currentUser ? "/contacts" : "/login"} />}
           />
         </Routes>
+       
       </div>
     </Router>
+    
+    
   );
 }
 
