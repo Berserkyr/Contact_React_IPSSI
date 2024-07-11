@@ -3,9 +3,9 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import LocalForageService from '../services/LocalForageService';
 import './ContactList.css'; // Importer le fichier CSS
-// import SearchBar from './Contact/SearchBar';
-// import Findcontact from './Contact/FindContact';
-// import Contact from './Contact/Contact';
+import SearchBar from './Contact/SearchBar';
+import Findcontact from './Contact/FindContact';
+//import Contact from './Contact/Contact';
 
 function ContactList () {
     const [loading, setLoading] = useState(true);

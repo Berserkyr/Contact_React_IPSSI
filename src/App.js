@@ -19,7 +19,12 @@ function App() {
   const [appointments, setAppointments] = useState([]);
   const [contacts, setContacts] = useState([]);
   const notifyAppointment = (appointment) => {
-    toast(`Rappel: ${appointment.title} à ${new Date(appointment.time).toLocaleTimeString()}`, {
+    const appointmentTime = new Date(appointment.time);
+    if (isNaN(appointmentTime)) {
+      console.error('Invalid appointment date:', appointment);
+      return;
+    }
+    toast(`Rappel: ${appointment.title} à ${appointment.time.toLocaleTimeString()}`, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -32,18 +37,10 @@ function App() {
     });
   };
   
-  const scheduleNotifications = () => {
-    const now = new Date().getTime();
-    appointments.forEach(appointment => {
-        const appointmentTime = new Date(appointment.time).getTime();
-        const delay = appointmentTime - now;
-        if (delay > 0) {
-            setTimeout(() => notifyAppointment(appointment), delay);
-        }
-    });
-  };
-  const notify = () => {
-    toast(`Rappel: ${appointments.title} à ${new Date(appointments.time).toLocaleTimeString()}`, {
+ 
+
+  const notify = (message) => {
+    toast( message, {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -64,6 +61,7 @@ function App() {
       try {
         const storedAppointments = await LocalForageService.getStoredAppointments();
         setAppointments(storedAppointments);
+        
       } catch (error) {
         console.error('Erreur lors du chargement des rendez-vous depuis LocalForage:', error);
       }
@@ -80,11 +78,32 @@ function App() {
     fetchAppointments();
     fetchCurrentUser();
   }, []);
+  
+  useEffect(() => {
+    const now = new Date().getTime();
+
+    const scheduleNotifications = (appointments) => {
+      appointments.forEach(appointment => {
+        const appointmentTime = new Date(appointment.time).getTime();
+        const delay = appointmentTime - now;
+        if (delay > 0) {
+          setTimeout(() => notifyAppointment(appointment), delay);
+        
+        } else {
+          console.error('Invalid appointment time:', appointment);
+        }
+      });
+    };
+    scheduleNotifications(appointments);
+  }, [appointments]);
+
 
   const handleAddAppointment = async (newAppointment) => {
     try {
       await LocalForageService.addAppointment(newAppointment);
-      setAppointments([...appointments, newAppointment]);
+      const updatedAppointments = [...appointments, newAppointment];
+      setAppointments(updatedAppointments);
+      
     } catch (error) {
       console.error('Erreur lors de l\'ajout du rendez-vous et de la sauvegarde dans LocalForage:', error);
     }
@@ -198,6 +217,7 @@ function App() {
             element={<Navigate to={currentUser ? "/contatcs" : "/login"} />}
           />
         </Routes>
+       
       </div>
     </Router>
     
