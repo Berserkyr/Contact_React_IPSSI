@@ -17,7 +17,7 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
   }, []);
 
   const handleEdit = (appointment) => {
-    setEditedAppointment({ appointment });
+    setEditedAppointment(appointment);
     setEditMode(true);
   };
 
@@ -44,8 +44,8 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
             <input
               type="date"
               className="form-control"
-              value={editedAppointment.date}
-              onChange={(e) => setEditedAppointment({ editedAppointment, date: e.target.value })}
+              value={editedAppointment.date || ''}
+              onChange={(e) => setEditedAppointment({ ...editedAppointment, date: e.target.value })}
               required
             />
           </div>
@@ -54,8 +54,8 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
             <input
               type="time"
               className="form-control"
-              value={editedAppointment.time}
-              onChange={(e) => setEditedAppointment({ editedAppointment, time: e.target.value })}
+              value={editedAppointment.time || ''}
+              onChange={(e) => setEditedAppointment({ ...editedAppointment, time: e.target.value })}
               required
             />
           </div>
@@ -64,8 +64,8 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
             <input
               type="text"
               className="form-control"
-              value={editedAppointment.description}
-              onChange={(e) => setEditedAppointment({ editedAppointment, description: e.target.value })}
+              value={editedAppointment.description || ''}
+              onChange={(e) => setEditedAppointment({ ...editedAppointment, description: e.target.value })}
               placeholder="Description du rendez-vous"
               required
             />

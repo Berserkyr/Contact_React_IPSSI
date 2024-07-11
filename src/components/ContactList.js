@@ -69,7 +69,7 @@ function ContactList () {
     return (
         <div className="container">
             <h1>Liste des Contacts</h1>
-            <Link to={`/contact-form/null/add`} className="contact-link btn btn-primary">Ajouter un contact</Link>
+            <Link to={`/contact-form/null/add`} className="btn btn-primary mb-2">Ajouter un contact</Link>
             <input
                 type="text"
                 placeholder="Rechercher par nom ou email"

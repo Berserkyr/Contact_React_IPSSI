@@ -6,6 +6,7 @@ import ContactList from './components/ContactList';
 import ContactForm from './components/ContactForm';
 import LoginPage from './components/LoginPage';
 import SignupPage from './components/SignupPage';
+import Logout from './components/Logout';
 import LocalForageService from './services/LocalForageService';
 
 import './App.css';
@@ -93,7 +94,7 @@ function App() {
                   <Link to="/contacts">Liste des Contacts</Link>
                 </li>
                 <li>
-                  <button onClick={handleLogout} className='btn btn-danger'>Se déconnecter</button>
+                  <Link to="/logout" onClick={handleLogout} className='btn btn-danger'>Se déconnecter</Link>
                 </li>
               </>
             ) : (
@@ -147,8 +148,12 @@ function App() {
             element={<SignupPage />}
           />
           <Route
+            path="/logout"
+            element={<Logout />}
+          />
+          <Route
             path="*"
-            element={<Navigate to={currentUser ? "/contatcs" : "/login"} />}
+            element={<Navigate to={currentUser ? "/contacts" : "/login"} />}
           />
         </Routes>
       </div>
