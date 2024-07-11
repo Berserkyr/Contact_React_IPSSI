@@ -78,9 +78,7 @@ if (loading) {
             <Link to={`/contact-form/null/add`} className="contact-link btn btn-primary mb-2">Ajouter un contact</Link>
             <Findcontact/>
             <SearchBar/>
-            <input
-            <SearchBar/>
-            <input
+            <inputgi
                 type="text"
                 placeholder="Rechercher par nom ou email"
                 value={searchTerm}
