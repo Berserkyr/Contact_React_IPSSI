@@ -4,7 +4,7 @@ import LocalForageService from '../services/LocalForageService';
 import './AppointmentList.css';
 import { toast } from 'react-toastify';
 import moment from 'moment';
-
+import ClearLocalForage from './ClearLocalForage';
 function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointment }) {
   const [editMode, setEditMode] = useState(false);
   const [editedAppointment, setEditedAppointment] = useState({});
@@ -131,7 +131,9 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
           ))}
         </ul>
       )}
+      <section><ClearLocalForage /></section>
     </div>
+    
   );
 }
 

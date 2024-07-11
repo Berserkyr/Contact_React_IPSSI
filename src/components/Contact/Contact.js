@@ -22,7 +22,7 @@ axios
 return (
   <ul>
             <li key={Contact.id}>
-              {Contact.id} - {Contact.email}
+              {Contact.id} - {Contact.email} - {Contact.attributes.Catégorie}
             </li>
         </ul>
 );

@@ -27,6 +27,7 @@ function ContactList () {
                 });
 
         const fetchedContacts = response.data.contacts;
+        console.log('Fetched Contacts:', fetchedContacts);
         setContacts(fetchedContacts);
 
         // Ajouter les contacts récupérés dans LocalForage
@@ -76,8 +77,8 @@ if (loading) {
             <h1>Liste des Contacts</h1>
             <Link to={`/contact-form/null/add`} className="btn btn-primary mb-2">Ajouter un contact</Link>
             <Findcontact/>
-      <SearchBar/>
-      <input
+            <SearchBar/>
+            <input
                 type="text"
                 placeholder="Rechercher par nom ou email"
                 value={searchTerm}
@@ -89,7 +90,8 @@ if (loading) {
                 {filteredContacts && filteredContacts.map(contact => (
                     <li key={contact.id} className="contact-item">
                         <div className="contact-details">
-                            {contact.attributes.PRENOM} {contact.attributes.NOM} - {contact.email}
+                            {contact.attributes.PRENOM} {contact.attributes.NOM} - {contact.email} - {contact.attributes.Catégorie} - {contact.attributes.City}
+                            
                         </div>
                         <Link to={`/add-appointment/${contact.id}`} className="contact-link btn btn-success">Prendre un rendez-vous</Link>
                         <Link to={`/contact-form/${contact.id}/update`} className="contact-link btn btn-primary">Modifier</Link>

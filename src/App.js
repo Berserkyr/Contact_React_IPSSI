@@ -14,6 +14,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ExportDataButton from './services/ExportDataButton'; // Importer le nouveau composant
 
 
 
@@ -160,6 +161,9 @@ function App() {
                 </li>
                 <li>
                   <Link to="/logout" onClick={handleLogout} className='btn btn-danger'>Se déconnecter</Link>
+                </li>
+                <li>
+                  <ExportDataButton /> {/* Utiliser le nouveau composant */}
                 </li>
               </>
             ) : (
