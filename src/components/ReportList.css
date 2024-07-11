@@ -1,0 +1,88 @@
+/* ReportList.css */
+
+.report-list-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.report-list-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.report-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.report-item {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.report-title-email {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.report-title {
+  font-size: 16px;
+  font-weight: normal;
+  margin-bottom: 10px;
+}
+
+.report-content {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.report-appointment-info {
+  font-size: 14px;
+  color: #666;
+}
+
+.report-actions {
+  margin-top: 10px;
+}
+
+.report-action-link,
+.report-action-button {
+  margin-right: 10px;
+  padding: 8px 16px;
+  font-size: 14px;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.report-action-link {
+  color: #007bff;
+  background-color: #fff;
+  border: 1px solid #007bff;
+}
+
+.report-action-link:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.report-action-button {
+  color: #fff;
+  background-color: #dc3545;
+}
+
+.report-action-button:hover {
+  background-color: #c82333;
+}

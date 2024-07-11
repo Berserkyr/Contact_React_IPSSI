@@ -39,24 +39,8 @@ function App() {
         icon: "📅"
     });
   };
-  
- 
-
-  const notify = (message) => {
-    toast( message, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      style: { backgroundColor: 'lightblue', color: 'darkblue' },
-      icon: "📅"
-  });
-};
     
-    const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -174,7 +158,6 @@ function App() {
             )}
          
             <li>
-        <button onClick={notify}>Notify!</button>
         <ToastContainer />
             </li>
           </ul>
@@ -226,7 +209,7 @@ function App() {
             element={<ReportList appointments={appointments} />}
           />
           <Route
-            path="/add-report/:appointmentId"
+            path="/add-report/:appointmentId/:contactEmail"
             element={<ReportForm />}
           />
           <Route
