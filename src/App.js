@@ -6,6 +6,8 @@ import ContactList from './components/ContactList';
 import ContactForm from './components/ContactForm';
 import LoginPage from './components/LoginPage';
 import SignupPage from './components/SignupPage';
+import ReportList from './components/ReportList';
+import ReportForm from './components/ReportForm';
 import Logout from './components/Logout';
 import LocalForageService from './services/LocalForageService';
 
@@ -22,7 +24,7 @@ function App() {
     const fetchAppointments = async () => {
       try {
         const storedAppointments = await LocalForageService.getStoredAppointments();
-        setAppointments(storedAppointments);
+        setAppointments(storedAppointments || []); // Assurez-vous de gérer le cas où storedAppointments est null ou undefined
       } catch (error) {
         console.error('Erreur lors du chargement des rendez-vous depuis LocalForage:', error);
       }
@@ -94,6 +96,9 @@ function App() {
                   <Link to="/contacts">Liste des Contacts</Link>
                 </li>
                 <li>
+                  <Link to="/reports">Comptes Rendus</Link>
+                </li>
+                <li>
                   <Link to="/logout" onClick={handleLogout} className='btn btn-danger'>Se déconnecter</Link>
                 </li>
               </>
@@ -150,6 +155,18 @@ function App() {
           <Route
             path="/logout"
             element={<Logout />}
+          />
+          <Route
+            path="/reports"
+            element={<ReportList appointments={appointments} />}
+          />
+          <Route
+            path="/add-report/:appointmentId"
+            element={<ReportForm />}
+          />
+          <Route
+            path="/edit-report/:reportId"
+            element={<ReportForm />}
           />
           <Route
             path="*"

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function Logout() {
@@ -11,7 +11,6 @@ function Logout() {
     logout();
   }, [navigate]);
 
-  return <div>Déconnexion en cours...</div>;
 }
 
 export default Logout;

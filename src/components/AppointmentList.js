@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import LocalForageService from '../services/LocalForageService';
 import './AppointmentList.css';
 
@@ -6,6 +7,7 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
   const [editMode, setEditMode] = useState(false);
   const [editedAppointment, setEditedAppointment] = useState({});
   const [contacts, setContacts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -33,6 +35,10 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
     }
     const contact = contacts.find((contact) => Number(contact.id) === Number(contactId));
     return contact ? `${contact.attributes.PRENOM} ${contact.attributes.NOM} - ${contact.email}` : 'Contact inconnu';
+  };
+
+  const handleAddReport = (appointmentId) => {
+    navigate(`/add-report/${appointmentId}`);
   };
 
   return (
@@ -88,6 +94,7 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
                 <div className="btnUpdate">
                   <button className="btn btn-info" onClick={() => handleEdit(appointment)}>Modifier</button>
                   <button className="btn btn-danger" onClick={() => onDeleteAppointment(appointment.id)}>Supprimer</button>
+                  <button className="btn btn-primary" onClick={() => handleAddReport(appointment.id)}>Ajouter compte rendu</button>
                 </div>
               </div>
             </li>
