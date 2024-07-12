@@ -5,7 +5,7 @@ import './AppointmentList.css';
 import './Style.css';
 import { toast } from 'react-toastify';
 import moment from 'moment';
-
+import ClearLocalForage from './ClearLocalForage';
 function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointment }) {
   const [editMode, setEditMode] = useState(false);
   const [editedAppointment, setEditedAppointment] = useState({});
@@ -184,7 +184,9 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
           </div>
         </>
       )}
+      <section><ClearLocalForage /></section>
     </div>
+    
   );
 }
 

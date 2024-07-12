@@ -1,15 +1,22 @@
 /* ContactList.css */
 .container {
   margin-top: 20px;
+  font-family: 'Arial', sans-serif;
 }
 
 h1 {
   margin-bottom: 20px;
+  font-size: 1.8em;
+  color: #333;
 }
 
 .form-control {
   margin-bottom: 20px;
   max-width: 400px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
 }
 
 .contact-list-top {
@@ -28,25 +35,43 @@ h1 {
 }
 
 .contact-item {
-  background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
-  border-radius: 5px;
-  margin-bottom: 10px;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 15px;
   padding: 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .contact-link {
   margin-left: 10px;
-  color: #fff;
+  color: #007bff;
+  font-size: 0.9em;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 .contact-link:hover {
+  color: #0056b3;
   text-decoration: underline;
 }
 
 .contact-details {
   flex-grow: 1;
+  font-size: 1em;
+  color: #555;
+}
+
+@media (max-width: 768px) {
+  .contact-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .contact-link {
+    margin-top: 10px;
+  }
 }

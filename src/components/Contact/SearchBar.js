@@ -1,7 +1,7 @@
 import React from 'react';
 import './SearchBar.css';
 
-const SearchBar = ({ handleFilterChange, filters }) => {
+const SearchBar = ({ handleFilterChange, filters,  handleSearch }) => {
   if (!filters) {
     return null;
   }
@@ -33,7 +33,7 @@ const SearchBar = ({ handleFilterChange, filters }) => {
         <option value="Work">Travail</option>
         <option value="Other">Autre</option>
       </select>
-      <button type="button">Rechercher</button>
+      <button type="button"onClick={handleSearch}>Rechercher</button>
     </div>
   );
 };

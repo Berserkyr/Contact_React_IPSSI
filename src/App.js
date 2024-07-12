@@ -12,8 +12,10 @@ import Logout from './components/Logout';
 import LocalForageService from './services/LocalForageService';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ExportDataButton from './services/ExportDataButton'; // Importer le nouveau composant
+//import AppointmentModal from './components/AppointmentModal';
 
 
 
@@ -145,6 +147,9 @@ function App() {
                 <li>
                   <Link to="/logout" onClick={handleLogout} className='btn btn-danger'>Se déconnecter</Link>
                 </li>
+                <li>
+                  <ExportDataButton /> {/* Utiliser le nouveau composant */}
+                </li>
               </>
             ) : (
               <>
@@ -158,7 +163,7 @@ function App() {
             )}
          
             <li>
-        <ToastContainer />
+              <ToastContainer />
             </li>
           </ul>
         </nav>
