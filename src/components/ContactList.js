@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import LocalForageService from '../services/LocalForageService';
 import './ContactList.css';
 import SearchBar from './Contact/SearchBar';
-import Contact from './Contact/Contact';
+
 
 function ContactList() {
   const [loading, setLoading] = useState(true);
@@ -107,7 +107,7 @@ if (loading) {
   return (
         <div className="container">
            
-            <SearchBar/>
+            <SearchBar filters={filters} handleFilterChange={(e) => handleFilterChange(e.target.name, e.target.value)} handleSearch={handleSearch}/>
             <input
                 type="text"
                 placeholder="Rechercher par nom ou email"

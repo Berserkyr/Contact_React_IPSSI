@@ -12,15 +12,11 @@ import Logout from './components/Logout';
 import LocalForageService from './services/LocalForageService';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ExportDataButton from './services/ExportDataButton'; // Importer le nouveau composant
 //import AppointmentModal from './components/AppointmentModal';
 
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 function App() {
   const [appointments, setAppointments] = useState([]);
   const [contacts, setContacts] = useState([]);
@@ -161,12 +157,6 @@ function App() {
                 </li>
               </>
             )}
-<<<<<<< Updated upstream
-=======
-            <li>
-              <ToastContainer />
-            </li>
->>>>>>> Stashed changes
           </ul>
         </nav>
         <Routes>
