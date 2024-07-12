@@ -110,7 +110,7 @@ if (loading) {
             <SearchBar filters={filters} handleFilterChange={(e) => handleFilterChange(e.target.name, e.target.value)} handleSearch={handleSearch}/>
             <input
                 type="text"
-                placeholder="Rechercher par nom ou email"
+                placeholder="Rechercher par nom, email, ville ou catégorie"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="form-control"
