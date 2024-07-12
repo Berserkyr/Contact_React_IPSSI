@@ -19,6 +19,16 @@ h1 {
   font-size: 1em;
 }
 
+.contact-list-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contact-list-top p {
+  margin: 0;
+}
+
 .contact-list {
   list-style-type: none;
   padding: 0;

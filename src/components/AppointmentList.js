@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LocalForageService from '../services/LocalForageService';
 import './AppointmentList.css';
+import './Style.css';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 import ClearLocalForage from './ClearLocalForage';
@@ -9,8 +10,9 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
   const [editMode, setEditMode] = useState(false);
   const [editedAppointment, setEditedAppointment] = useState({});
   const [contacts, setContacts] = useState([]);
+  const [reports, setReports] = useState([]);
   const notify = (message) => {
-    toast( message, {
+    toast(message, {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -20,9 +22,9 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
       progress: undefined,
       style: { backgroundColor: 'lightblue', color: 'darkblue' },
       icon: "📅"
-  });
-};
-    
+    });
+  };
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,7 +33,13 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
       setContacts(storedContacts);
     };
 
+    const fetchReports = async () => {
+      const storedReports = await LocalForageService.getStoredReports();
+      setReports(storedReports);
+    };
+
     fetchContacts();
+    fetchReports();
   }, []);
 
   useEffect(() => {
@@ -41,10 +49,9 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
         const appointmentDate = moment(appointment.date);
         if (appointmentDate.isSame(today, 'day')) {
           notify(`Vous avez un rendez-vous aujourd'hui à ${appointment.time}: ${appointment.description}`);
-        ;
-      }
-    });
-  };
+        }
+      });
+    };
     checkTodayAppointments();
   }, [appointments]);
 
@@ -59,22 +66,39 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
     setEditMode(false);
   };
 
-  const getContactName = (contactId) => {
+  const getContactEmail = (contactId) => {
     if (!contacts || contacts.length === 0) {
       return 'Contact inconnu';
     }
     const contact = contacts.find((contact) => Number(contact.id) === Number(contactId));
-    return contact ? `${contact.attributes.PRENOM} ${contact.attributes.NOM} - ${contact.email}` : 'Contact inconnu';
+    return contact ? contact.email : 'Contact inconnu';
   };
 
-  const handleAddReport = (appointmentId) => {
-    navigate(`/add-report/${appointmentId}`);
+  const getReportForAppointment = (appointmentId) => {
+    return reports.find(report => report.appointmentId === appointmentId);
   };
+
+  const handleAddReport = (appointmentId, contactId) => {
+    const existingReport = getReportForAppointment(appointmentId);
+    if (existingReport) {
+      // Il y a déjà un compte rendu existant, rediriger vers l'édition du compte rendu
+      navigate(`/edit-report/${existingReport.id}`);
+    } else {
+      // Aucun compte rendu existant, rediriger vers l'ajout de compte rendu avec l'email du contact
+      const contactEmail = getContactEmail(contactId);
+      navigate(`/add-report/${appointmentId}/${contactEmail}`);
+    }
+  };
+
+  // Séparation des rendez-vous passés et à venir
+  const today = moment().startOf('day');
+  const futureAppointments = appointments.filter(appointment => moment(appointment.date).isSameOrAfter(today));
+  const pastAppointments = appointments.filter(appointment => moment(appointment.date).isBefore(today));
 
   return (
     <div className="container mt-5">
       {editMode ? (
-        <form onSubmit={handleUpdate}>
+        <form className='form-container' onSubmit={handleUpdate}>
           <div className="form-group">
             <label>Date:</label>
             <input
@@ -107,29 +131,58 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
             />
           </div>
           <div className="btnUpdate mt-3">
-            <button type="submit" className="btn btn-primary">Enregistrer</button>
+            <button type="submit" className="btn btn-success">Enregistrer</button>
             <button type="button" className="btn btn-secondary" onClick={() => setEditMode(false)}>Annuler</button>
           </div>
         </form>
       ) : (
-        <ul className="list-group mt-3">
-          {appointments.map((appointment) => (
-            <li key={appointment.id} className="list-group-item">
-              <div className="d-flex justify-content-between align-items-center">
-                <div>
-                  <span>Date: {appointment.date} | Heure: {appointment.time}</span>
-                  <p className="mb-0">Description: {appointment.description}</p>
-                  <p className="mb-0">Contact: {getContactName(appointment.contactId)}</p>
-                </div>
-                <div className="btnUpdate">
-                  <button className="btn btn-info" onClick={() => handleEdit(appointment)}>Modifier</button>
-                  <button className="btn btn-danger" onClick={() => onDeleteAppointment(appointment.id)}>Supprimer</button>
-                  <button className="btn btn-primary" onClick={() => handleAddReport(appointment.id)}>Ajouter compte rendu</button>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <>
+          <div className="future-appointments">
+            <h3>Rendez-vous à venir</h3>
+            <ul className="list-group mt-3">
+              {futureAppointments.map((appointment) => (
+                <li key={appointment.id} className="list-group-item">
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div>
+                      <span>Date: {appointment.date} | Heure: {appointment.time}</span>
+                      <p className="mb-0">Description: {appointment.description}</p>
+                      <p className="mb-0">Contact: {getContactEmail(appointment.contactId)}</p>
+                    </div>
+                    <div className="btnUpdate">
+                      <button className="btn btn-outline-primary" onClick={() => handleEdit(appointment)}>Modifier</button>
+                      <button className="btn btn-danger" onClick={() => onDeleteAppointment(appointment.id)}>Supprimer</button>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="past-appointments">
+            <h3>Rendez-vous passés</h3>
+            <ul className="list-group mt-3">
+              {pastAppointments.map((appointment) => (
+                <li key={appointment.id} className="list-group-item">
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div>
+                      <span>Date: {appointment.date} | Heure: {appointment.time}</span>
+                      <p className="mb-0">Description: {appointment.description}</p>
+                      <p className="mb-0">Contact: {getContactEmail(appointment.contactId)}</p>
+                    </div>
+                    <div className="btnUpdate">
+                      {moment(appointment.date).isBefore(today) && (
+                        <button className="btn btn-primary" onClick={() => handleAddReport(appointment.id, appointment.contactId)}>
+                          {getReportForAppointment(appointment.id) ? 'Modifier compte rendu' : 'Ajouter compte rendu'}
+                        </button>
+                      )}
+                      <button className="btn btn-outline-primary" onClick={() => handleEdit(appointment)}>Modifier</button>
+                      <button className="btn btn-danger" onClick={() => onDeleteAppointment(appointment.id)}>Supprimer</button>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </>
       )}
       <section><ClearLocalForage /></section>
     </div>

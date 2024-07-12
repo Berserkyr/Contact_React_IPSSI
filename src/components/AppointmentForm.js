@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useParams, useNavigate  } from 'react-router-dom';
 import LocalForageService from '../services/LocalForageService';
 import { v4 as uuidv4 } from 'uuid';
-import './AppointmentForm.css';
+import './Style.css';
 
 function AppointmentForm({ onAddAppointment }) {
   const { contactId } = useParams();
@@ -55,7 +55,7 @@ function AppointmentForm({ onAddAppointment }) {
         placeholder="Description du rendez-vous"
         required
       />
-      <button type="submit">Ajouter Rendez-vous</button>
+      <button type="submit" className='btn btn-success'>Ajouter Rendez-vous</button>
     </form>
   );
 }

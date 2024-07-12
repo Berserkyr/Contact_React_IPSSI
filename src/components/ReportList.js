@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import LocalForageService from '../services/LocalForageService';
+import './ReportList.css'; // Import du fichier de style CSS
 
 function ReportList() {
   const [reports, setReports] = useState([]);
@@ -33,31 +34,19 @@ function ReportList() {
     setReports(reports.filter(report => report.id !== id));
   };
 
-  const getAppointmentInfo = (appointmentId) => {
-    const appointment = appointments.find(appointment => appointment.id === appointmentId);
-    if (!appointment) {
-      return 'Rendez-vous inconnu';
-    }
-
-    const contact = contacts.find(contact => contact.id === appointment.contactId);
-    if (!contact) {
-      return 'Contact inconnu';
-    }
-
-    return `${contact.attributes.PRENOM} ${contact.attributes.NOM} - ${contact.email}`;
-  };
-
   return (
-    <div>
-      <h2>Comptes Rendus</h2>
-      <ul>
+    <div className="report-list-container mt-4">
+      <h2 className="report-list-title">Comptes Rendus</h2>
+      <ul className="report-list">
         {reports.map(report => (
-          <li key={report.id}>
-            <h3>{report.title}</h3>
-            <p>{report.content}</p>
-            <p>Rendez-vous: {getAppointmentInfo(report.appointmentId)}</p>
-            <Link to={`/edit-report/${report.id}`}>Modifier</Link>
-            <button onClick={() => handleDelete(report.id)}>Supprimer</button>
+          <li key={report.id} className="report-item">
+            <h3 className='report-title'> <span className="report-title-email">Email du rendez-vous : </span>{report.title}</h3>
+            <p className="report-content">Contenu du compte rendu : </p>
+            <p className="report-content">{report.content}</p>
+            <div className="report-actions">
+              <Link to={`/edit-report/${report.id}`} className="report-action-link">Modifier</Link>
+              <button onClick={() => handleDelete(report.id)} className="report-action-button">Supprimer</button>
+            </div>
           </li>
         ))}
       </ul>

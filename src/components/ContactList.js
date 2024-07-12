@@ -79,6 +79,38 @@ function ContactList() {
         (contact.attributes.VILLE && contact.attributes.VILLE.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (contact.attributes.CATEGORIE && categoryMap[contact.attributes.CATEGORIE].toLowerCase().includes(searchTerm.toLowerCase()))
       )
+  
+if (loading) {
+  return <div>Chargement...</div>;
+}
+  return (
+        <div className="container">
+            <Findcontact/>
+            <SearchBar/>
+            <input
+                type="text"
+                placeholder="Rechercher par nom ou email"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="form-control"
+            />
+            <div className='contact-list-top mb-2'>
+                <p>Nombre de contacts: {filteredContacts ? filteredContacts.length : 0}</p>
+                <Link to={`/contact-form/null/add`} className="btn btn-success">Ajouter un contact</Link>
+            </div>
+            <ul className="contact-list">
+                {filteredContacts && filteredContacts.map(contact => (
+                    <li key={contact.id} className="contact-item">
+                        <div className="contact-details">
+                            {contact.attributes.PRENOM} {contact.attributes.NOM} - {contact.email}
+                        </div>
+                        <Link to={`/add-appointment/${contact.id}`} className="contact-link btn btn-success">Prendre un rendez-vous</Link>
+                        <Link to={`/contact-form/${contact.id}/update`} className="contact-link btn btn-outline-primary">Modifier</Link>
+                        <button onClick={() => deleteContact(contact.id)} className="contact-link btn btn-danger">Supprimer</button>
+                    </li>
+                ))}
+            </ul>
+        </div>
     );
   }, [searchTerm, contacts, categoryMap, filters]);
 

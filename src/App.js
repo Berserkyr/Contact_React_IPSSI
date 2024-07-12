@@ -41,12 +41,8 @@ function App() {
         icon: "📅"
     });
   };
-  
- 
-
-
     
-    const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -166,7 +162,9 @@ function App() {
               </>
             )}
          
-        
+            <li>
+              <ToastContainer />
+            </li>
           </ul>
         </nav>
         <Routes>
@@ -216,7 +214,7 @@ function App() {
             element={<ReportList appointments={appointments} />}
           />
           <Route
-            path="/add-report/:appointmentId"
+            path="/add-report/:appointmentId/:contactEmail"
             element={<ReportForm />}
           />
           <Route
