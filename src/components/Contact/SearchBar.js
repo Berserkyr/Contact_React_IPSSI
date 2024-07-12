@@ -11,14 +11,14 @@ const SearchBar = ({ handleFilterChange, filters,  handleSearch }) => {
       <input
         type="text"
         name="nom"
-        placeholder="Recherche par nom"
+        placeholder="Recherche par prénom"
         value={filters.nom}
         onChange={handleFilterChange}
       />
       <input
         type="text"
         name="prénom"
-        placeholder="Recherche par prénom"
+        placeholder="Recherche par nom"
         value={filters.prénom}
         onChange={handleFilterChange}
       />

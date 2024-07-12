@@ -105,19 +105,18 @@ function ContactList() {
   }
   return (
     <div className="container">
-      <h1>Liste des Contacts</h1>
-      <SearchBar filters={filters} handleFilterChange={(e) => handleFilterChange(e.target.name, e.target.value)} handleSearch={handleSearch} />
-      <input
-        type="text"
-        placeholder="Rechercher par nom, email, ville ou catégorie"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="form-control"
-      />
+      {/* <SearchBar filters={filters} handleFilterChange={(e) => handleFilterChange(e.target.name, e.target.value)} handleSearch={handleSearch} /> */}
       <div className='contact-list-top mb-2'>
-        <p>Nombre de contacts: {filteredContacts.length}</p>
+        <input
+          type="text"
+          placeholder="Rechercher par nom, email, ville ou catégorie"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="form-control"
+        />
         <Link to={`/contact-form/null/add`} className="contact-link btn btn-success">Ajouter un contact</Link>
       </div>
+        <p>Nombre de contacts: {filteredContacts.length}</p>
       <ul className="contact-list">
         {filteredContacts.map(contact => (
           <li key={contact.id} className="contact-item">
