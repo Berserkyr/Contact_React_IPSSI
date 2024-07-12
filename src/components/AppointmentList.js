@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LocalForageService from '../services/LocalForageService';
 import './AppointmentList.css';
+import './Style.css';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 
@@ -97,7 +98,7 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
   return (
     <div className="container mt-5">
       {editMode ? (
-        <form onSubmit={handleUpdate}>
+        <form className='form-container' onSubmit={handleUpdate}>
           <div className="form-group">
             <label>Date:</label>
             <input
@@ -130,7 +131,7 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
             />
           </div>
           <div className="btnUpdate mt-3">
-            <button type="submit" className="btn btn-primary">Enregistrer</button>
+            <button type="submit" className="btn btn-success">Enregistrer</button>
             <button type="button" className="btn btn-secondary" onClick={() => setEditMode(false)}>Annuler</button>
           </div>
         </form>
@@ -148,7 +149,7 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
                       <p className="mb-0">Contact: {getContactEmail(appointment.contactId)}</p>
                     </div>
                     <div className="btnUpdate">
-                      <button className="btn btn-info" onClick={() => handleEdit(appointment)}>Modifier</button>
+                      <button className="btn btn-outline-primary" onClick={() => handleEdit(appointment)}>Modifier</button>
                       <button className="btn btn-danger" onClick={() => onDeleteAppointment(appointment.id)}>Supprimer</button>
                     </div>
                   </div>
@@ -168,13 +169,13 @@ function AppointmentList({ appointments, onUpdateAppointment, onDeleteAppointmen
                       <p className="mb-0">Contact: {getContactEmail(appointment.contactId)}</p>
                     </div>
                     <div className="btnUpdate">
-                      <button className="btn btn-info" onClick={() => handleEdit(appointment)}>Modifier</button>
-                      <button className="btn btn-danger" onClick={() => onDeleteAppointment(appointment.id)}>Supprimer</button>
                       {moment(appointment.date).isBefore(today) && (
                         <button className="btn btn-primary" onClick={() => handleAddReport(appointment.id, appointment.contactId)}>
                           {getReportForAppointment(appointment.id) ? 'Modifier compte rendu' : 'Ajouter compte rendu'}
                         </button>
                       )}
+                      <button className="btn btn-outline-primary" onClick={() => handleEdit(appointment)}>Modifier</button>
+                      <button className="btn btn-danger" onClick={() => onDeleteAppointment(appointment.id)}>Supprimer</button>
                     </div>
                   </div>
                 </li>

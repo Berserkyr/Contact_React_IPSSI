@@ -12,6 +12,16 @@ h1 {
   max-width: 400px;
 }
 
+.contact-list-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contact-list-top p {
+  margin: 0;
+}
+
 .contact-list {
   list-style-type: none;
   padding: 0;

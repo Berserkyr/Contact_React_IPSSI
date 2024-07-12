@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import LocalForageService from '../services/LocalForageService';
+import './Style.css'
 
 function ReportForm() {
   const { appointmentId, contactEmail } = useParams();
-  const navigate = useNavigate();
   const [report, setReport] = useState({ title: contactEmail || '', content: '', appointmentId });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchReport = async () => {
@@ -29,7 +30,7 @@ function ReportForm() {
 
   return (
     <div className="container mt-5">
-      <form onSubmit={handleSubmit}>
+      <form className='form-container' onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Email du rendez-vous</label>
           <input
@@ -52,7 +53,7 @@ function ReportForm() {
             required
           />
         </div>
-        <button type="submit" className="btn btn-primary">Enregistrer</button>
+        <button type="submit" className="btn btn-success">Enregistrer</button>
       </form>
     </div>
   );

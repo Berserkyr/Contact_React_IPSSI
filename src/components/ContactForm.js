@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import './Style.css'
 
 const ContactAction = () => {
     const { contactId, contactAction } = useParams();
@@ -77,7 +78,7 @@ const ContactAction = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="d-flex flex-column align-items-center">
+        <form onSubmit={handleSubmit} className="form-container mt-3">
             <div className="form-group">
                 <label htmlFor="firstname">Prenom :</label>
                 <input
@@ -114,7 +115,7 @@ const ContactAction = () => {
                     className="form-control"
                 />
             </div>
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn btn-success">
                 {contactAction === 'add' ? 'Ajouter' : 'Mettre à jour'} le contact
             </button>
         </form>

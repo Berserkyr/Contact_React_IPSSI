@@ -73,8 +73,6 @@ if (loading) {
 }
   return (
         <div className="container">
-            <h1>Liste des Contacts</h1>
-            <Link to={`/contact-form/null/add`} className="contact-link btn btn-primary mb-2">Ajouter un contact</Link>
             <Findcontact/>
             <SearchBar/>
             <input
@@ -84,7 +82,10 @@ if (loading) {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="form-control"
             />
-            <p>Nombre de contacts: {filteredContacts ? filteredContacts.length : 0}</p>
+            <div className='contact-list-top mb-2'>
+                <p>Nombre de contacts: {filteredContacts ? filteredContacts.length : 0}</p>
+                <Link to={`/contact-form/null/add`} className="btn btn-success">Ajouter un contact</Link>
+            </div>
             <ul className="contact-list">
                 {filteredContacts && filteredContacts.map(contact => (
                     <li key={contact.id} className="contact-item">
@@ -92,7 +93,7 @@ if (loading) {
                             {contact.attributes.PRENOM} {contact.attributes.NOM} - {contact.email}
                         </div>
                         <Link to={`/add-appointment/${contact.id}`} className="contact-link btn btn-success">Prendre un rendez-vous</Link>
-                        <Link to={`/contact-form/${contact.id}/update`} className="contact-link btn btn-primary">Modifier</Link>
+                        <Link to={`/contact-form/${contact.id}/update`} className="contact-link btn btn-outline-primary">Modifier</Link>
                         <button onClick={() => deleteContact(contact.id)} className="contact-link btn btn-danger">Supprimer</button>
                     </li>
                 ))}
