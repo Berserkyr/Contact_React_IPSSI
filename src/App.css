@@ -2,9 +2,11 @@
 
 /* Style pour le menu de navigation */
 nav {
-  background-color: #333;
+  background-color: #1a1a1a;
   color: #fff;
-  padding: 10px;
+  padding: 15px 20px;
+  font-family: 'Arial', sans-serif;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 nav ul {
@@ -12,6 +14,8 @@ nav ul {
   margin: 0;
   padding: 0;
   display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 nav ul li {
@@ -21,10 +25,31 @@ nav ul li {
 nav ul li a {
   color: #fff;
   text-decoration: none;
-  padding: 10px;
-  transition: background-color 0.3s ease;
+  padding: 10px 15px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-size: 1em;
+  border-radius: 5px;
 }
 
 nav ul li a:hover {
-  background-color: #555;
+  background-color: #444;
+  color: #f0f0f0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav ul li {
+    margin-bottom: 10px;
+  }
+
+  nav ul li a {
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+  }
 }

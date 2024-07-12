@@ -1,27 +1,28 @@
 /* ClearLocalForage.css */
 .clear-localforage-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
-  }
-  
-  .clear-localforage-button {
-    background-color: #ff6347; /* Tomato */
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .clear-localforage-button:hover {
-    background-color: #ff4500; /* OrangeRed */
-  }
-  
-  .clear-localforage-button:active {
-    background-color: #c71585; /* MediumVioletRed */
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+.clear-localforage-button {
+  background-color: #ff6347; /* Tomato */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.clear-localforage-button:hover {
+  background-color: #ff4500; /* OrangeRed */
+}
+
+.clear-localforage-button:active {
+  background-color: #c71585; /* MediumVioletRed */
+  transform: scale(0.95);
+}

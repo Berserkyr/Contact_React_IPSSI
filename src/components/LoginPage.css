@@ -4,7 +4,8 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f8f9fa;
+  background-color: #f0f2f5;
+  font-family: 'Arial', sans-serif;
 }
 
 .login-container .card {
@@ -12,14 +13,20 @@
   max-width: 400px;
   padding: 2rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  border-radius: 10px;
   background-color: #fff;
+  transition: box-shadow 0.3s ease;
+}
+
+.login-container .card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .login-container .card-title {
   text-align: center;
   margin-bottom: 1.5rem;
-  color: #343a40;
+  color: #333;
+  font-size: 1.5em;
 }
 
 .login-container .error {
@@ -36,7 +43,14 @@
   width: 100%;
   padding: 0.75rem;
   border: 1px solid #ced4da;
-  border-radius: 4px;
+  border-radius: 5px;
+  font-size: 1em;
+  transition: border-color 0.3s ease;
+}
+
+.login-container .form-control:focus {
+  border-color: #007bff;
+  outline: none;
 }
 
 .login-container .btn-primary {
@@ -44,10 +58,11 @@
   padding: 0.75rem;
   background-color: #007bff;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   color: #fff;
   font-size: 1rem;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .login-container .btn-primary:hover {

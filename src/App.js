@@ -12,9 +12,10 @@ import Logout from './components/Logout';
 import LocalForageService from './services/LocalForageService';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ExportDataButton from './services/ExportDataButton'; // Importer le nouveau composant
+//import AppointmentModal from './components/AppointmentModal';
 
 
 
@@ -43,19 +44,7 @@ function App() {
   
  
 
-  const notify = (message) => {
-    toast( message, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      style: { backgroundColor: 'lightblue', color: 'darkblue' },
-      icon: "📅"
-  });
-};
+
     
     const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -177,10 +166,7 @@ function App() {
               </>
             )}
          
-            <li>
-        <button onClick={notify}>Notify!</button>
-        <ToastContainer />
-            </li>
+        
           </ul>
         </nav>
         <Routes>
