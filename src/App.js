@@ -17,7 +17,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import ExportDataButton from './services/ExportDataButton'; // Importer le nouveau composant
 //import AppointmentModal from './components/AppointmentModal';
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 function App() {
   const [appointments, setAppointments] = useState([]);
   const [contacts, setContacts] = useState([]);
@@ -67,7 +70,6 @@ function App() {
   
   useEffect(() => {
     const now = new Date().getTime();
-
     const scheduleNotifications = (appointments) => {
       appointments.forEach(appointment => {
         const appointmentTime = new Date(appointment.time).getTime();
@@ -159,6 +161,12 @@ function App() {
                 </li>
               </>
             )}
+<<<<<<< Updated upstream
+=======
+            <li>
+              <ToastContainer />
+            </li>
+>>>>>>> Stashed changes
           </ul>
         </nav>
         <Routes>
@@ -220,12 +228,7 @@ function App() {
             element={<Navigate to={currentUser ? "/contacts" : "/login"} />}
           />
         </Routes>
-       
       </div>
-    </Router>
-    
-    
-  );
-}
-
+    </Router> 
+  );}
 export default App;
