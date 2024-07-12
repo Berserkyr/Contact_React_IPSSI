@@ -11,9 +11,7 @@ h1 {
 }
 
 .form-control {
-  margin-bottom: 20px;
   max-width: 400px;
-  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 1em;
@@ -22,6 +20,7 @@ h1 {
 .contact-list-top {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
 }
 
