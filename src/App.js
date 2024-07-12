@@ -18,8 +18,6 @@ import ExportDataButton from './services/ExportDataButton'; // Importer le nouve
 //import AppointmentModal from './components/AppointmentModal';
 
 
-
-
 function App() {
   const [appointments, setAppointments] = useState([]);
   const [contacts, setContacts] = useState([]);
@@ -49,7 +47,7 @@ function App() {
     const fetchAppointments = async () => {
       try {
         const storedAppointments = await LocalForageService.getStoredAppointments();
-        setAppointments(storedAppointments || []); // Assurez-vous de gérer le cas où storedAppointments est null ou undefined
+        setAppointments(storedAppointments || []);
       } catch (error) {
         console.error('Erreur lors du chargement des rendez-vous depuis LocalForage:', error);
       }
@@ -145,10 +143,10 @@ function App() {
                   <Link to="/reports">Comptes Rendus</Link>
                 </li>
                 <li>
-                  <Link to="/logout" onClick={handleLogout} className='btn btn-danger'>Se déconnecter</Link>
+                  <ExportDataButton /> {/* Utiliser le nouveau composant */}
                 </li>
                 <li>
-                  <ExportDataButton /> {/* Utiliser le nouveau composant */}
+                  <Link to="/logout" onClick={handleLogout} className='btn btn-danger'>Se déconnecter</Link>
                 </li>
               </>
             ) : (
@@ -161,10 +159,6 @@ function App() {
                 </li>
               </>
             )}
-         
-            <li>
-              <ToastContainer />
-            </li>
           </ul>
         </nav>
         <Routes>

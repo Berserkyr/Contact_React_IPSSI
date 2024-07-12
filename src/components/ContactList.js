@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import LocalForageService from '../services/LocalForageService';
-import './ContactList.css'; // Importer le fichier CSS
+import './ContactList.css';
 import SearchBar from './Contact/SearchBar';
 
 function ContactList() {
@@ -70,50 +70,6 @@ function ContactList() {
     }
   };
 
-  useEffect(() => {
-    setFilteredContacts(
-      contacts.filter(contact =>
-        contact.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (contact.attributes.PRENOM && contact.attributes.PRENOM.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (contact.attributes.NOM && contact.attributes.NOM.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (contact.attributes.VILLE && contact.attributes.VILLE.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (contact.attributes.CATEGORIE && categoryMap[contact.attributes.CATEGORIE].toLowerCase().includes(searchTerm.toLowerCase()))
-      )
-  
-if (loading) {
-  return <div>Chargement...</div>;
-}
-  return (
-        <div className="container">
-            <Findcontact/>
-            <SearchBar/>
-            <input
-                type="text"
-                placeholder="Rechercher par nom ou email"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="form-control"
-            />
-            <div className='contact-list-top mb-2'>
-                <p>Nombre de contacts: {filteredContacts ? filteredContacts.length : 0}</p>
-                <Link to={`/contact-form/null/add`} className="btn btn-success">Ajouter un contact</Link>
-            </div>
-            <ul className="contact-list">
-                {filteredContacts && filteredContacts.map(contact => (
-                    <li key={contact.id} className="contact-item">
-                        <div className="contact-details">
-                            {contact.attributes.PRENOM} {contact.attributes.NOM} - {contact.email}
-                        </div>
-                        <Link to={`/add-appointment/${contact.id}`} className="contact-link btn btn-success">Prendre un rendez-vous</Link>
-                        <Link to={`/contact-form/${contact.id}/update`} className="contact-link btn btn-outline-primary">Modifier</Link>
-                        <button onClick={() => deleteContact(contact.id)} className="contact-link btn btn-danger">Supprimer</button>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
-  }, [searchTerm, contacts, categoryMap, filters]);
-
   const handleFilterChange = (name, value) => {
     setFilters({
       ...filters,
@@ -132,15 +88,24 @@ if (loading) {
     );
   };
 
+  useEffect(() => {
+    setFilteredContacts(
+      contacts.filter(contact =>
+        contact.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (contact.attributes.PRENOM && contact.attributes.PRENOM.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (contact.attributes.NOM && contact.attributes.NOM.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (contact.attributes.VILLE && contact.attributes.VILLE.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (contact.attributes.CATEGORIE && categoryMap[contact.attributes.CATEGORIE].toLowerCase().includes(searchTerm.toLowerCase()))
+      )
+    );
+  }, [searchTerm, contacts, categoryMap, filters]);
+
   if (loading) {
     return <div>Chargement...</div>;
   }
-
   return (
     <div className="container">
       <h1>Liste des Contacts</h1>
-      <Link to={`/contact-form/null/add`} className="contact-link btn btn-primary mb-2">Ajouter un contact</Link>
-
       <SearchBar filters={filters} handleFilterChange={(e) => handleFilterChange(e.target.name, e.target.value)} handleSearch={handleSearch} />
       <input
         type="text"
@@ -149,7 +114,10 @@ if (loading) {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="form-control"
       />
-      <p>Nombre de contacts: {filteredContacts.length}</p>
+      <div className='contact-list-top mb-2'>
+        <p>Nombre de contacts: {filteredContacts.length}</p>
+        <Link to={`/contact-form/null/add`} className="contact-link btn btn-success">Ajouter un contact</Link>
+      </div>
       <ul className="contact-list">
         {filteredContacts.map(contact => (
           <li key={contact.id} className="contact-item">
