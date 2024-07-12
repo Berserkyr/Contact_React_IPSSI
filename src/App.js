@@ -12,7 +12,7 @@ import Logout from './components/Logout';
 import LocalForageService from './services/LocalForageService';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ExportDataButton from './services/ExportDataButton'; // Importer le nouveau composant
 //import AppointmentModal from './components/AppointmentModal';

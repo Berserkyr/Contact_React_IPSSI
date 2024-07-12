@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import LocalForageService from '../services/LocalForageService';
 import './ContactList.css'; // Importer le fichier CSS
 import SearchBar from './Contact/SearchBar';
+import Contact from './Contact/Contact';
 
 function ContactList() {
   const [loading, setLoading] = useState(true);
@@ -79,13 +80,15 @@ function ContactList() {
         (contact.attributes.VILLE && contact.attributes.VILLE.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (contact.attributes.CATEGORIE && categoryMap[contact.attributes.CATEGORIE].toLowerCase().includes(searchTerm.toLowerCase()))
       )
+    ); 
+;}, [searchTerm, contacts, categoryMap, filters] );
   
 if (loading) {
   return <div>Chargement...</div>;
 }
   return (
         <div className="container">
-            <Findcontact/>
+           
             <SearchBar/>
             <input
                 type="text"
@@ -102,7 +105,7 @@ if (loading) {
                 {filteredContacts && filteredContacts.map(contact => (
                     <li key={contact.id} className="contact-item">
                         <div className="contact-details">
-                            {contact.attributes.PRENOM} {contact.attributes.NOM} - {contact.email}
+                            {contact.attributes.PRENOM} {contact.attributes.NOM} - {contact.email} - {contact.attributes.VILLE} - {contact.attributes.CATEGORIE ? categoryMap[contact.attributes.CATEGORIE] : 'Catégorie non définie'}
                         </div>
                         <Link to={`/add-appointment/${contact.id}`} className="contact-link btn btn-success">Prendre un rendez-vous</Link>
                         <Link to={`/contact-form/${contact.id}/update`} className="contact-link btn btn-outline-primary">Modifier</Link>
@@ -112,7 +115,7 @@ if (loading) {
             </ul>
         </div>
     );
-  }, [searchTerm, contacts, categoryMap, filters]);
+
 
   const handleFilterChange = (name, value) => {
     setFilters({
@@ -167,5 +170,4 @@ if (loading) {
     </div>
   );
 }
-
 export default ContactList;
